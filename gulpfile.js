@@ -89,25 +89,7 @@ gulp.task('watch', function() {
     .pipe(changed(devPaths.html, {extension: '.js'}))
     ;
   })
-  // gulp.watch([devPaths.html+'css/*.css'] , function() {
-  //   return gulp.src(devPaths.html+'css/*.css')
-  //   .pipe(useref())
-  //   .pipe(cssnano())
-  //   .pipe(cleanCSS(devPaths.html+'css/all.css'))
-  //   .pipe(gulp.dest('src/css/'))
-  //   .pipe(changed(devPaths.html, {extension: '.js'}));
-  // });
-  // gulp.watch([devPaths.html+'*.js',devPaths.html+'js/*.js'] , function() {
-  //   return gulp.src(devPaths.html+'/*.js')
-  //   .pipe(fileinclude({
-  //     prefix: '@@',
-  //     basepath: '@file'
-  //   }))
-  //   .pipe(useref())
-  //   .pipe(gulpIf('*.js', uglify()))
-  //   .pipe(concat('all.js'))
-  //   .pipe(gulp.dest('build/'));
-  // });
+  
   gulp.watch([devPaths.html+'css/*.css'] , function() {
     return runSequence(['css_change'], 'js_change',
     );
@@ -123,11 +105,12 @@ gulp.task('watch', function() {
 gulp.task('css_change', function() {
   return gulp.src(devPaths.html+'css/*.css')
   .pipe(useref())
-  .pipe(cssnano())
+  .pipe(cssnano({zindex: false}))
   .pipe(cleanCSS(devPaths.html+'css/all.css'))
   .pipe(gulp.dest('src/css/'))
   .pipe(changed(devPaths.html, {extension: '.js'}));
 })
+
 gulp.task('js_change', function() {
     return gulp.src(devPaths.html+'/*.js')
     .pipe(fileinclude({
@@ -139,31 +122,17 @@ gulp.task('js_change', function() {
     .pipe(concat('all.js'))
     .pipe(gulp.dest('build/'));
 })
-gulp.task('clean:dist', function() {
-  return del.sync(distPaths.root);
-})
+
 gulp.task('useref', function() {
   return gulp.src(devPaths.footerTpl)
   .pipe(useref())
   .pipe(gulpIf('*.js', uglify()))
-  .pipe(gulpIf('*.css', cssnano()))
+  .pipe(gulpIf('*.css', cssnano({zindex: false})))
   .pipe(gulp.dest(distPaths.footerFolder));
 })
-gulp.task('move_css', function() {
-  return gulp.src(devPaths.css + '*.css')
-  .pipe(gulp.dest(distPaths.css))
-})
+
 gulp.task('default', function(callback) {
   runSequence(['npmdep','sass', 'watch'], 'watch',
-    callback
-    )
-})
-gulp.task('build', function(callback) {
-  flags.production = true
-  runSequence(
-    'clean:dist',
-    // 'sass',
-    ['useref', "move_css"],
     callback
     )
 })
