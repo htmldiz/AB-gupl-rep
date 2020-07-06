@@ -1,1 +1,2 @@
-.site-header__main .tags-bar{list-style:none;margin:0;padding:0;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;padding:14px 10px}.site-header__main .tags-bar .tag-item{padding-right:3px;padding-left:3px}.site-header__main .tags-bar .tag-element{padding:5px;background:#ebebeb;font-weight:500;font-size:10px;line-height:12px;text-transform:uppercase;border-radius:12px;padding:12px 6px}.site-header__main.header__main__scrolling .tags-bar .tag-element{padding:6px 5px}.site-header__main .filter-bar__options{position:static}
+body {
+  background: red; }

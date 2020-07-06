@@ -28,7 +28,10 @@ if (!window.jQuery) {
 	});
 } 
 function abjqlr($){
-	@@include('js/script.js')
-	var style = '@@include("css/style.css")';
+	// connect language configuration object
+	var language = window.lco;
+	console.log('%cTest come','background:red;color:wite;');
+	var style = '@@style@@';
+	@@scriptjs@@
 	$('body').append('<style>'+style+'</style>');
 }

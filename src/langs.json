@@ -1,0 +1,10 @@
+{
+  "languages" : {
+    "en" : {
+        "test_str" : "Test hello"
+    }
+  },
+  "versions": {
+    "1.1": ""
+  }
+}
