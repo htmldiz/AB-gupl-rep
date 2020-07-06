@@ -1,7 +1,6 @@
 const gulp = require('gulp');
 const sass = require("gulp-sass");
 const useref = require("gulp-useref");
-const runSequence = require("gulp4-run-sequence");
 const fs = require('fs');
 const uglify = require('gulp-uglify');
 const cssnano = require('gulp-cssnano');
