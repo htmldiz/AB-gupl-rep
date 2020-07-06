@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const sass = require("gulp-sass");
 const useref = require("gulp-useref");
+const runSequence = require("gulp4-run-sequence");
 const fs = require('fs');
 const uglify = require('gulp-uglify');
 const cssnano = require('gulp-cssnano');
@@ -14,7 +15,15 @@ const path_info = {
   pre_build_css : 'tpl/css/',
   pre_build     : 'tpl/',
   pre_build_js  : 'tpl/js/',
-  pre_build_templ  : 'tpl/pre_build_js/',
+  pre_build_templ  : 'tpl/pre_build/',
+}
+const create_tpl_folders = function (dirPath) {
+  try{
+    fs.mkdirSync(path_info.pre_build);
+    fs.mkdirSync(path_info.pre_build_js);
+    fs.mkdirSync(path_info.pre_build_css);
+    fs.mkdirSync(path_info.pre_build_templ);
+  }catch (e) {}
 }
 async function asyncAwaitTask() {
   const { languages } = JSON.parse(fs.readFileSync(path_info.src+'langs.json', 'utf8'));
@@ -81,4 +90,4 @@ function watch_tasks(){
 exports.prebuild = asyncAwaitTask;
 exports.build    = build_js_and_minify;
 exports.style    = scss_task;
-exports.default  = watch_tasks;
+exports.default  = gulp.parallel(create_tpl_folders,watch_tasks);
