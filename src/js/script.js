@@ -1,1 +1,2 @@
-var current_language = language;
+// language.some_slug
+alert(language.some_slug);

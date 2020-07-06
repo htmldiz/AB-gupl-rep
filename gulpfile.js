@@ -1,10 +1,10 @@
-const gulp = require('gulp');
-const sass = require("gulp-sass");
-const useref = require("gulp-useref");
-const fs = require('fs');
-const uglify = require('gulp-uglify');
+const gulp    = require('gulp');
+const sass    = require("gulp-sass");
+const useref  = require("gulp-useref");
+const fs      = require('fs');
+const uglify  = require('gulp-uglify');
 const cssnano = require('gulp-cssnano');
-const gulpif = require('gulp-if');
+const gulpif  = require('gulp-if');
 const path_info = {
   src           : 'src/',
   css           : 'src/css/',
@@ -25,10 +25,11 @@ const create_tpl_folders = function (dirPath) {
   }catch (e) {}
 }
 async function asyncAwaitTask() {
+  removeDir(path_info.pre_build_templ);
   const { languages } = JSON.parse(fs.readFileSync(path_info.src+'langs.json', 'utf8'));
   for(language in languages){
     var cong_out   = JSON.stringify(languages[language]);
-    var out_string = "window.lco = "+cong_out+";\n";
+    var out_string = "window.language_abtest = "+cong_out+";\n";
     var out_file   = fs.readFileSync(path_info.src+'index.js', 'utf8');
     var style_css  = "";
     try{
@@ -52,7 +53,26 @@ async function asyncAwaitTask() {
   }
   await Promise.resolve('');
 }
+const removeDir = function(path) {
+  if (fs.existsSync(path)) {
+    const files = fs.readdirSync(path)
+    if (files.length > 0) {
+      files.forEach(function(filename) {
+        var remove_obj = path + "/" + filename;
+        remove_obj = remove_obj.replace(new RegExp('//','g'),'/');
+        if (!fs.statSync(remove_obj).isDirectory()) {
+          console.log(remove_obj);
+          fs.unlinkSync(remove_obj);
+        }
+      })
+    }
+    console.log("Directory removed.");
+  } else {
+    console.log("Directory path not found.");
+  }
+}
 function build_js_and_minify() {
+  removeDir(path_info.build);
   return gulp.src(path_info.pre_build_templ+"*.js")
       .pipe(uglify())
       .pipe(gulp.dest(path_info.build));

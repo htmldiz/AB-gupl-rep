@@ -1,7 +1,7 @@
 {
   "languages" : {
-    "en" : {
-        "test_str" : "Test hello"
+    "" : {
+        "some_slug" : "Lorem Ipsum"
     }
   }
 }

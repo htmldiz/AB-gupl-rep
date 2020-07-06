@@ -29,7 +29,7 @@ if (!window.jQuery) {
 } 
 function abjqlr($){
 	// connect language configuration object
-	var language = window.lco;
+	var language = window.language_abtest;
 	console.log('%cTest come','background:red;color:wite;');
 	var style = '@@style@@';
 	@@scriptjs@@
