@@ -37,7 +37,20 @@ async function asyncAwaitTask() {
     }catch (e) {}
     var script_js  = "";
     try{
-      script_js    = fs.readFileSync(path_info.pre_build_js+'script.js', 'utf8');
+      script_js    += fs.readFileSync(path_info.pre_build_js+'global.variables.js', 'utf8');
+      script_js    += "\n";
+    }catch (e) {}
+    try{
+      script_js    += fs.readFileSync(path_info.pre_build_js+'func.js', 'utf8');
+      script_js    += "\n";
+    }catch (e) {}
+    try{
+      script_js    += fs.readFileSync(path_info.pre_build_js+'events.js', 'utf8');
+      script_js    += "\n";
+    }catch (e) {}
+    try{
+      script_js    += fs.readFileSync(path_info.pre_build_js+'script.js', 'utf8');
+      script_js    += "\n";
     }catch (e) {}
     out_file       = out_file.replace('@@style@@',style_css);
     out_file       = out_file.replace('@@scriptjs@@',script_js);
@@ -87,7 +100,7 @@ function scss_task() {
 }
 function css_task() {
   return gulp.src(path_info.css+"*.css")
-      .pipe(cssnano())
+      .pipe(cssnano({zindex: false}))
       .pipe(gulp.dest(path_info.pre_build_css));
 }
 function js_task() {
